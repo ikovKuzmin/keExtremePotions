@@ -39,7 +39,7 @@ public class GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI() {
-		setTitle("OptimalHerbGUI");
+		setTitle("keExtremePotions");
 		setBackground(Color.ORANGE);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 315, 278);
@@ -48,7 +48,7 @@ public class GUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblOptimalHerbGui = new JLabel("Optimal Herb GUI");
+		JLabel lblOptimalHerbGui = new JLabel("keExtremePotions");
 		lblOptimalHerbGui.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
 		lblOptimalHerbGui.setBounds(81, 11, 133, 36);
 		contentPane.add(lblOptimalHerbGui);
