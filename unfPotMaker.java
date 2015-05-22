@@ -22,6 +22,7 @@ import org.rev317.min.api.methods.Bank;
 import org.rev317.min.api.methods.Game;
 import org.rev317.min.api.methods.Inventory;
 import org.rev317.min.api.methods.Items.Option;
+import org.rev317.min.api.methods.Menu;
 import org.rev317.min.api.methods.SceneObjects;
 import org.rev317.min.api.wrappers.Item;
 import org.rev317.min.api.wrappers.SceneObject;
@@ -126,10 +127,11 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 					Bank.withdraw(rangePot, 27, 100);
 					// sleepBoolean = Inventory.getCount(rangePot) > 0;
 					sleep(Inventory.getCount(rangePot) > 0, 1000);
-				} else {
+				} else if ((!(Bank.getCount(rangePot) > 0) && !Inventory
+						.contains(grenwall))) {
 					System.out
 							.println("You are out of Range Potions (3) or Grenwalls");
-					setState(STATE_STOPPED);
+					endScript();
 				}
 
 				if (Inventory.contains(grenwall)
@@ -145,11 +147,20 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						makeAllPotions();
 					}
 					// sleepBoolean = Inventory.getCount(extremeRange) == 27;
-					sleep(Inventory.getCount(extremeRange) == 27, 35000);
+					sleep(Inventory.getCount(extremeRange) == 27, 30000);
 				}
 			} else if (option == 5) {
 				createExtreme(magicPot, groundMudRune, extremeMagic);
 			} else if (option == 6) {
+				/*
+				 * for objects action1 = object hash action 2 = object regional
+				 * X action 3 = object regional Y action 4 = object ID [2:12:25
+				 * PM] Paul Feenstra: Hmm, lets see for banking [2:13:52 PM]
+				 * Paul Feenstra: for items action 1 = item id action 2 = bank
+				 * slot action 3 = cache interface id (Not the regular interface
+				 * id) action 4 = subcache? id? Idunno [2:14:14 PM] Paul
+				 * Feenstra: for banking*
+				 */
 				if (Game.getOpenInterfaceId() == bankInterface
 						&& Bank.getCount(extremeAtt) > 0
 						&& Bank.getCount(extremeStr) > 0
@@ -157,32 +168,50 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						&& Bank.getCount(extremeRange) > 0
 						&& Bank.getCount(extremeMagic) > 0
 						&& Bank.getCount(cleanTorstol) > 0) {
-					Bank.withdraw(extremeAtt, 4, 0);
-					// sleepBoolean = Inventory.getCount(extremeAtt) > 0;
+
+					Menu.sendAction(776, 15309, 0, 5382, 2213, 5); // att
 					sleep(Inventory.getCount(extremeAtt) > 0, 1000);
-
-					Bank.withdraw(extremeStr, 4, 100);
-					// sleepBoolean = Inventory.getCount(extremeStr) > 0;
+					Menu.sendAction(776, 15313, 1, 5382, 2213, 5); // str
 					sleep(Inventory.getCount(extremeStr) > 0, 1000);
-
-					Bank.withdraw(extremeDef, 4, 100);
-					// sleepBoolean = Inventory.getCount(extremeDef) > 0;
+					Menu.sendAction(776, 15317, 2, 5382, 2213, 5);// def
 					sleep(Inventory.getCount(extremeDef) > 0, 1000);
-
-					Bank.withdraw(extremeRange, 4, 100);
-					// sleepBoolean = Inventory.getCount(extremeRange) > 0;
+					Menu.sendAction(776, 15325, 3, 5382, 2213, 5); // range
 					sleep(Inventory.getCount(extremeRange) > 0, 1000);
-
-					Bank.withdraw(extremeMagic, 4, 100);
-					// sleepBoolean = Inventory.getCount(extremeMagic) > 0;
-					sleep(Inventory.getCount(extremeMagic) > 0, 1000);
-
-					Bank.withdraw(cleanTorstol, 4, 100);
-					// sleepBoolean = Inventory.getCount(cleanTorstol) > 0;
+					Menu.sendAction(776, 15321, 4, 5382, 2213, 5); // def
+					sleep(Inventory.getCount(extremeDef) > 0, 1000);
+					Menu.sendAction(776, 269, 5, 5382, 2213, 5); // torstol
 					sleep(Inventory.getCount(cleanTorstol) > 0, 1000);
-				} else {
+
+					/*
+					 * Bank.withdraw(extremeAtt, 4, 0); // sleepBoolean =
+					 * Inventory.getCount(extremeAtt) > 0;
+					 * sleep(Inventory.getCount(extremeAtt) > 0, 1000);
+					 * 
+					 * Bank.withdraw(extremeStr, 4, 100); // sleepBoolean =
+					 * Inventory.getCount(extremeStr) > 0;
+					 * sleep(Inventory.getCount(extremeStr) > 0, 1000);
+					 * 
+					 * Bank.withdraw(extremeDef, 4, 100); // sleepBoolean =
+					 * Inventory.getCount(extremeDef) > 0;
+					 * sleep(Inventory.getCount(extremeDef) > 0, 1000);
+					 * 
+					 * Bank.withdraw(extremeRange, 4, 100); // sleepBoolean =
+					 * Inventory.getCount(extremeRange) > 0;
+					 * sleep(Inventory.getCount(extremeRange) > 0, 1000);
+					 * 
+					 * Bank.withdraw(extremeMagic, 4, 100); // sleepBoolean =
+					 * Inventory.getCount(extremeMagic) > 0;
+					 * sleep(Inventory.getCount(extremeMagic) > 0, 1000);
+					 * 
+					 * Bank.withdraw(cleanTorstol, 4, 100); // sleepBoolean =
+					 * Inventory.getCount(cleanTorstol) > 0;
+					 * sleep(Inventory.getCount(cleanTorstol) > 0, 1000);
+					 */
+				} else if (!(Bank.getCount(extremeMagic) > 0)
+						&& !Inventory.contains(cleanTorstol)) {
 					System.out
 							.println("You are out of Extremes or clean torstols");
+
 				}
 
 				if (Inventory.contains(extremeAtt)
@@ -201,8 +230,8 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 					if (Game.getOpenBackDialogId() == 4429) {
 						makeAllPotions();
 					}
-					sleepBoolean = Inventory.getCount(overload3) == 4;
-					sleep(Inventory.getCount(overload3) == 4, 6000);
+					// sleepBoolean = Inventory.getCount(overload3) == 4;
+					sleep(Inventory.getCount(overload3) == 4, 4500);
 				}
 			} else if (option == 7) {
 				if (Game.getOpenInterfaceId() == bankInterface
@@ -210,6 +239,7 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						&& Bank.getCount(mudRune) > 0) {
 					if (!Inventory.contains(pestle_mortar)
 							&& !Inventory.contains(mudRune)) {
+
 						Bank.withdraw(pestle_mortar, 1, 100);
 						// sleepBoolean = Inventory.getCount(pestle_mortar) > 0;
 						sleep(Inventory.getCount(pestle_mortar) > 0, 1000);
@@ -218,9 +248,10 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						// sleepBoolean = Inventory.getCount(mudRune) > 0;
 						sleep(Inventory.getCount(mudRune) > 0, 1000);
 					}
-				} else {
-					System.out
-							.println("You are out of Magic Potions (3) or Ground Mud Runes");
+				} else if (!(Bank.getCount(mudRune) > 0)
+						&& !Inventory.contains(mudRune)) {
+					System.out.println("You are out of Ground mud runes");
+					endScript();
 				}
 
 				if (Inventory.contains(pestle_mortar)
@@ -237,7 +268,7 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						makeAllPotions();
 					}
 					// sleepBoolean = Inventory.getCount(groundMudRune) == 27;
-					sleep(Inventory.getCount(groundMudRune) == 27, 40000);
+					sleep(Inventory.getCount(groundMudRune) == 27, 30000);
 				}
 			} else if (option == 8) {
 				int potion3 = overload3;
@@ -248,8 +279,9 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 						// sleepBoolean = Inventory.getCount(potion3) > 0;
 						sleep(Inventory.getCount(potion3) > 0, 1000);
 					}
-				} else {
+				} else if (!(Bank.getCount(potion3) > 0)) {
 					System.out.println("You are out of Overload (3)");
+					endScript();
 				}
 
 				if (Inventory.contains(potion3)) {
@@ -284,7 +316,8 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 
 	@Override
 	public void messageReceived(MessageEvent m) {
-		if (m.getMessage().contains("You make a ")) {
+		if (m.getMessage().contains("You make a ")
+				|| m.getMessage().contains("grind the mud rune to dust")) {
 			potProgress += 1;
 		}
 	}
@@ -307,19 +340,24 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 		Mouse.getInstance().click(280, 479, true); // right click
 	}
 
-	public static void createExtreme(final int potion, final int ingredient,
+	public void createExtreme(final int potion, final int ingredient,
 			final int extreme) {
 		if (Game.getOpenInterfaceId() == bankInterface
 				&& Bank.getCount(potion) > 0 && Bank.getCount(ingredient) > 0) {
-			Bank.withdraw(potion, 14, 0);
-			sleepBoolean = Inventory.getCount(potion) > 0;
-			sleep(sleepBoolean, 1000);
+			while (!Inventory.contains(potion)) {
+				Bank.withdraw(potion, 14, 0);
+				sleep(Inventory.getCount(potion) > 0, 1000);
+			}
+			while (Inventory.contains(ingredient)) {
+				Bank.withdraw(ingredient, 14, 100);
+				sleep(Inventory.getCount(ingredient) > 0, 1000);
+			}
 
-			Bank.withdraw(ingredient, 14, 100);
-			sleepBoolean = Inventory.getCount(ingredient) > 0;
-			sleep(sleepBoolean, 1000);
-		} else {
+		} else if (!(Bank.getCount(potion) > 0 && !(Bank.getCount(ingredient) > 0))) {
 			System.out.println("You are out of required materials");
+			System.out.println("The potion amount: " + Bank.getCount(potion)
+					+ " and ingredient amount: " + ingredient);
+			endScript();
 		}
 
 		if (Inventory.contains(potion) && Inventory.contains(ingredient)) {
@@ -349,4 +387,10 @@ public class unfPotMaker extends Script implements MessageListener, Paintable {
 		}, time);
 	}
 
+	public void endScript() {
+		Time.sleep(2000);
+		setState(STATE_STOPPED);
+		Time.sleep(10000);
+		forceLogout();
+	}
 }
